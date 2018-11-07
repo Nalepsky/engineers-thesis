@@ -1,5 +1,5 @@
 package com.nalepka.repository;
 
-public interface WeaponDao {
+public interface NationDao {
 
 }
