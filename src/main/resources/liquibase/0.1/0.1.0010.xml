@@ -118,13 +118,13 @@
             CREATE TABLE IF NOT EXISTS `unit` (
             `id` bigint(20) NOT NULL AUTO_INCREMENT,
             `name` text NOT NULL DEFAULT 'New Unit',
-            `nation_id` text NOT NULL DEFAULT 'New Unit',
+            `nation_id` bigint(20) NOT NULL,
             `description` text NOT NULL DEFAULT 'description',
-            `type` enum('HQ','INFANTRY','ARTYLERY','TANK','ARMOURED_CAR','TRANSPORT') DEFAULT NULL,
+            `type` enum('HQ','INFANTRY','ARTILLERY','TANK','ARMOURED_CAR','TRANSPORT') DEFAULT NULL,
             `composition` text NOT NULL DEFAULT '1 NCO and 4 men',
             `cost` int(11) NOT NULL DEFAULT 0,
             `base_number` int(10) unsigned NOT NULL DEFAULT 1,
-            `max-number` int(10) unsigned NOT NULL DEFAULT 1,
+            `max_number` int(10) unsigned NOT NULL DEFAULT 1,
             PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

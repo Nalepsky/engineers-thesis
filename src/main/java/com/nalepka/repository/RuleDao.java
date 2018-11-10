@@ -1,5 +1,8 @@
 package com.nalepka.repository;
 
-public interface RuleDao {
+import com.nalepka.model.Weapon;
+import org.springframework.data.repository.CrudRepository;
+
+public interface RuleDao extends CrudRepository<Rule, Long> {
 
 }
