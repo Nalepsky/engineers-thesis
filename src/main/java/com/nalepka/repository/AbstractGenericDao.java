@@ -59,8 +59,10 @@ public abstract class AbstractGenericDao<T> implements CrudRepository<T, Long> {
     public Iterable<T> findAll() {
         em = getEntityManager();
         try{
-            Query query = em.createNativeQuery(
-                    "SELECT * FROM " + entityClass.getName());
+            TypedQuery query = em.createQuery(
+                    "SELECT t FROM " + this.entityClass.getName() + " t",
+                    entityClass
+            );
             return (List)query.getResultList();
         }catch (Exception e){
 

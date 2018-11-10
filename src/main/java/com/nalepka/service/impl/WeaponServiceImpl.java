@@ -1,7 +1,8 @@
-package com.nalepka.service;
+package com.nalepka.service.impl;
 
 import com.nalepka.model.Weapon;
 import com.nalepka.repository.WeaponDao;
+import com.nalepka.service.WeaponService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,8 @@ public class WeaponServiceImpl implements WeaponService {
     @Override
     public List<Weapon> getAll() {
         List<Weapon> weapons = new ArrayList<>();
-        weaponDao.findAll().forEach(weapons::add);
+        weaponDao.findAll()
+                .forEach(weapons::add);
         return weapons;
     }
 

@@ -6,10 +6,5 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface WeaponService {
-    List<Weapon> getAll();
-    Weapon getById(Long id);
-    Weapon update(Weapon weapon);
-    void delete(Long id);
-
+public interface WeaponService extends GenericService<Weapon> {
 }

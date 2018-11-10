@@ -19,9 +19,4 @@ public class AppConfiguration implements WebMvcConfigurer {
     public AppConfiguration(ApplicationContext applicationContext){
         this.applicationContext = applicationContext;
     }
-
-    @Bean
-    public WeaponDao weaponDao(){
-        return new WeaponDaoImpl();
-    }
 }
