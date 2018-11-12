@@ -1,0 +1,63 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+                   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+                   xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd'>
+
+
+    <changeSet author="marek.nalepka" id="0.2.0010.0010">
+        <sql>
+            ALTER TABLE `Weapon`
+            MODIFY COLUMN `range` TEXT;
+
+            ALTER TABLE `Weapon`
+            MODIFY COLUMN `shots` TEXT;
+
+            ALTER TABLE `Weapon`
+            MODIFY COLUMN `penetration` TEXT;
+
+            INSERT INTO Weapon
+            VALUES
+            (1, 'Rifle', 24, 1, 0),
+            (2, 'Pistol', 6, 1, 0),
+            (3, 'Submachine gun', 12, 2, 0),
+            (4, 'Automatic Rifle', 30, 2, 0),
+            (5, 'Assault Rifle', 18, 2, 0),
+            (6, 'Light machine gun', 36, 4, 0),
+            (7, 'Medium machine gun', 36, 5, 0),
+            (8, 'Heavy machine gun', 36, 3, 1),
+            (9, 'Light automatic cannon', 48, 2, 2),
+            (10, 'Heavy automatic cannon', 72, 2, 3),
+            (11, 'PIAT', 12, 1, 5),
+            (12, 'Bazooka', 24, 1, 5),
+            (13, 'Panzerschreck', 24, 1, 6),
+            (14, 'Panzerfaust', 12, 1, 6),
+            (15, 'Light AT gun', 48, 1, 4),
+            (16, 'Medium AT gun', 60, 1, 5),
+            (17, 'Heavy AT gun', 72, 1, 6),
+            (18, 'Super-heavy AT gun', 84, 1, 7),
+            (19, 'Flamethrower (infantry)', 6, 'D6', 3),
+            (20, 'Flamethrower (vehicle)', 12, 'D6+1', 3),
+            (21, 'Light mortar', '12-24', 1, 'HE'),
+            (22, 'Medium mortar',  '12-60', 1, 'HE'),
+            (23, 'Heavy mortar', '12-72', 1, 'HE'),
+            (24, 'Light howitzer', '48 (or 24-60)', 1, 'HE'),
+            (25, 'Medium howitzer', '60 (or 30-72)', 1, 'HE'),
+            (26, 'Heavy howitzer', '72 (or 36-84)', 1, 'HE');
+
+            INSERT INTO Rule
+            VALUES
+            (1, 'Assault', 'This weapon suffers no penalty to hit when moving and shooting. In addition, infantry models armed with an assault weapon count as tough fighters. When a tough fighter scores a casualty in close quarters against infantry or artillery, it can immediately make a second damage roll.', 'Core Rulebook', 90),
+            (2, 'Team', 'A Team weapon shoots at full effectiveness so long as there are at least two men to serve it. If only one man remains then the weapon suffers a -1 to hit penalty, and -1 penalty to its morale. For squad-based team weapons, loader must remain within 1" or weapon suffers the -1 to-hit penalty.', 'Core Rulebook', 99),
+            (3, 'Fixed', 'When given Advance order, fixed weapons can rotate on the spot suffering a -1 to-hit penalty. Non-artillery Fixed can move normal 12" when given Run order.', 'Core Rulebook', 90),
+            (4, 'HE(1")', 'PEN: +1, PIN: D2 (D3 if in building) - Infantry and artillery can go down to halve the hits taken', 'Core Rulebook', 92),
+            (5, 'HE(2")', 'PEN: +2, PIN: D3 (D6 if in building) - Infantry and artillery can go down to halve the hits taken', 'Core Rulebook', 92),
+            (6, 'HE(3")', 'PEN: +3, PIN: D3 (2D6 if in building) - Infantry and artillery can go down to halve the hits taken', 'Core Rulebook', 92),
+            (7, 'HE(4")', 'PEN: +4, PIN: D6 (3D6 if in building) - Infantry and artillery can go down to halve the hits taken', 'Core Rulebook', 92),
+            (8, 'Shaped Charge' , 'Never suffer the -1 penetration modifier for firing at long range.', 'Core Rulebook', 99),
+            (9, 'One-shot', 'This is a disposable weapon that can be fired only once per game. Once fired replace the model with another model that does not carry the disposable weapon', 'Core Rulebook', 99),
+            (10, 'Flamethrower' , 'Flamethrowers never suffer to-hit penalties for cover or Down. Hits multiplied into D6 (D6+1 for vehicle flamethrower). Always hits top armour. No -1 PEN for long range. Gun shield and extra protection rules do not apply. Units hit take D3+1 pins and must always check morale (if fail, then destroyed). Flamethrower rolls D6 - on 1 it runs out of fuel. When rolling to damage vehicle with flamerthrower, add +1 to damage effects chart. ', 'Core Rulebook', 91),
+            (11, 'Indirect Fire', 'Hit on 6, -1 each turn if both target and shooter did not move', 'Core Rulebook', 96),
+            (12, 'Howitzer', 'Can either shoot directly at a target drawing its line of fire over open sights in the normal way, or it can shoot indirect fire. When using indirect fire, a howitzer has a minimum range; when firing over open sights it has no minimum range.', 'Core Rulebook', 96);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
