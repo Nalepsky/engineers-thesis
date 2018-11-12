@@ -1,9 +1,16 @@
 package com.nalepka.model;
 
 import com.nalepka.utils.UnitType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

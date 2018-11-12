@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -18,8 +18,13 @@ public class Weapon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private Integer range;
-    private Integer shots;
-    private Integer penetration;
-
+    private String range;
+    private String shots;
+    private String penetration;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "RuleWeapon",
+            joinColumns = { @JoinColumn(name = "weapon_id") },
+            inverseJoinColumns = { @JoinColumn(name = "rule_id") })
+    private List<Rule> rules;
 }
