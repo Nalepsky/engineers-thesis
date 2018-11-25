@@ -1,0 +1,117 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+                   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+                   xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd'>
+
+
+    <changeSet author="marek.nalepka" id="0.2.0030.0010">
+        <sql>
+            INSERT INTO Nation
+            VALUES
+            (1, USA);
+
+            INSERT INTO Selector
+            VALUES
+            (1, USA Reinforced Platoon, 1);
+
+            ALTER TABLE Unit
+            DROP COLUMN cost;
+
+            ALTER TABLE Unit
+            DROP COLUMN 'description';
+
+            ALTER TABLE Unit
+            ADD COLUMN i_cost INT DEFAULT -1;
+
+            ALTER TABLE Unit
+            ADD COLUMN r_cost INT DEFAULT -1;
+
+            ALTER TABLE Unit
+            ADD COLUMN v_cost INT DEFAULT -1;
+
+            ALTER TABLE Unit
+            ADD COLUMN additional_i_cost INT DEFAULT 7;
+
+            ALTER TABLE Unit
+            ADD COLUMN additional_r_cost INT DEFAULT 10;
+
+            ALTER TABLE Unit
+            ADD COLUMN additional_v_cost INT DEFAULT 13;
+
+            INSERT INTO Unit
+            VALUES
+            (1, 'Second Lieutenant', 1, 'HQ', '1 officer and up to 2 further men', 1, 3, 35, 50, 65, 7, 10, 13),
+            (2, 'First Lieutenant', 1, 'HQ', '1 officer and up to 2 further men', 1, 3, 60, 75, 90, 7, 10, 13),
+            (3, 'Captain', 1, 'HQ', '1 officer and up to 2 further men', 1, 3, 95, 110, 125, 7, 10, 13),
+            (4, 'Major ', 1, 'HQ', '1 officer and up to 2 further men', 1, 3, 135, 150, 165, 7, 10, 13),
+
+            (5, 'Artillery Forward Observer', 1, 'HQ', '1 Forward Observer and up to 2 further men ', 1, 3, -1, 100, 115, 7, 10, 13),
+            (6, 'Air Force Forward Observer', 1, 'HQ', '1 Forward Observer and up to 2 further men ', 1, 3, -1, 75, 90, 7, 10, 13),
+
+            (7, 'REGULAR INFANTRY SQUAD', 1, 'INFANTRY', '1 NCO and 4 men ', 5, 12, -1, 50, -1, 7, 10, 13),
+            (8, 'RANGERS, AIRBORNE, MARINES OR VETERAN INFANTRY SQUAD ', 1, 'INFANTRY', '1 NCO and 4 men', 5, 12, -1, -1, 65, 7, 10, 13),
+            (9, 'INEXPERIENCED INFANTRY SQUAD', 1, 'INFANTRY', '1 NCO and 4 men', 5, 12, 35, -1, -1, 7, 10, 13),
+
+            (10, '.30 CAL MEDIUM MACHINE GUN TEAM', 1, 'INFANTRY', '3 men', 3, 3, 35, 50, 65, 7, 10, 13),
+            (11, 'BAZOOKA TEAM', 1, 'INFANTRY', '2 men', 1, 1, 42, 60, 78, 7, 10, 13),
+            (12, 'SNIPER TEAM', 1, 'INFANTRY', '2 men', 2, 2, -1, 50, 65, 7, 10, 13),
+            (13, '81MM MEDIUM MORTAR ', 1, 'INFANTRY', '3 men ', 3, 3, 35, 50, 65, 7, 10, 13),
+
+            (14, '75MM HOWITZER', 1, 'ARTILLERY', '3 men', 3, 3, 40, 50, 60, 7, 10, 13),
+            (15, '57MM ANTI-TANK GUN ', 1, 'ARTILLERY', '3 men', 3, 3, 60, 75, 90, 7, 10, 13),
+            (16, '37MM M1A2 ANTI-AIRCRAFT GUN ', 1, 'ARTILLERY', '4 men', 4, 4, 48, 60, 72, 7, 10, 13),
+
+            (17, 'M5 STUART', 1, 'TANK', '8+ (light tank)', 1, 1, 108, 135, 162, -1, -1, -1),
+            (18, 'M4 SHERMAN 75MM', 1, 'TANK', '9+ (medium tank)', 1, 1, 156, 195, 234, -1, -1, -1),
+            (19, 'M4 SHERMAN 76MM', 1, 'TANK', '9+ (medium tank)', 1, 1, 188, 235, 282, -1, -1, -1),
+            (20, 'M10 TANK DESTROYER', 1, 'TANK', '8+ (light tank)', 1, 1, 144, 180, 216, -1, -1, -1),
+            (21, 'M7 PRIEST', 1, 'TANK', '8+ (light tank)', 1, 1, 128, 160, 192, -1, -1, -1),
+            (22, 'M16 ANTI-AIRCRAFT CARRIAGE', 1, 'TANK', '7+ (armoured car)', 1, 1, 100, 125, 150, -1, -1, -1),
+
+            (23, 'M8 GREYHOUND AND M20 ARMOURED CAR ', 1, 'ARMOURED_CAR', '7+ (armoured car)', 1, 1, 88, 110, 132, -1, -1, -1),
+
+            (24, '2½ TON TRUCK', 1, 'TRANSPORT', '6+ (soft-skinned)', 1, 1, 31, 39, 47, -1, -1, -1),
+            (25, 'JEEP ', 1, 'TRANSPORT', '6+ (soft-skinned)', 1, 1, 17, 21, 25, -1, -1, -1),
+            (26, 'M3 HALF-TRACK', 1, 'TRANSPORT', '7+ (armoured carrier)', 1, 1, 79, 99, 119, -1, -1, -1),
+            (27, 'LVT AMPHIBIOUS TROOP TRANSPORT ', 1, 'TRANSPORT', '6+ (soft-skinned) ', 1, 1, 78, 98, 118, -1, -1, -1);
+
+            INSERT INTO Rule
+            VALUES
+            (13, 'Tank hunters', 'Tank hunter units are equipped with specialised close quarter anti-tank weaponry. This includes antitank grenades – possibly launched from a rifle – sticky bombs, gammon bombs, satchel charges, lunge bombs, Molotov cocktails and the like. If a tank hunter unit wins an assault and scores damage against an armoured vehicle, the effect is resolved on the damage result table as for a normal anti-tank penetration rather than as for superficial damage.', 'Core Rulebook', 122),
+            (14, 'Extra selection', 'You may take up to three .30 Cal MMGs as one selection in each reinforced platoon', 'Core Rulebook', 230),
+            (15, 'Sniper', 'A sniper team includes a marksman with a high-power telescopic sight and normally also include an observer or loader (in which case it has the team weapon special rule). When a sniper shoots using a Fire or Ambush order the player can decide to use his scope, in which case the following special rules apply: Rifle range changes to 36”. However, if the target is within 12”, the shot misses automatically. The shot ignores negative to-hit modifiers, except for pinning markers and for the missing assistant if the sniper is the last man standing (most sniper teams have the team weapon special rule). The shot ignores the gun shield and extra protection rules. If the sniper successfully rolls to hit and damage, this always counts as exceptional damage (just as if you rolled a 6 to damage), so the firing player can pick any model in the target unit as a casualty. Unlike other units with the team weapon special rule, all members of a sniper team can fire any weapon they are carrying in any turn when the sniper is not using his scope, and in an assault they can use the assault rule from their pistols/submachine guns', 'Core Rulebook', 122),
+            (16, 'Gun shield', 'Many guns are equipped with an armoured gun shield to provide protection to the crew. If a gun is equipped with a gun shield, the die roll an enemy requires to score damage for a hit from the front arc of the gun as described above is increased by +1. This means that inexperienced crew sheltering behind a gun shield are damaged on a 4+, regulars on 5+ and veterans on 6+. This die roll is modified by the penetration value of the weapon in the usual way. Note that hits from HE (both direct and indirect fire), flamethrowers and close quarters attacks ignore the gun shield rule. ', 'Core Rulebook', 127),
+            (17, 'Flak', 'All enemies with the flak special rule automatically fire at the attacking aircraft if the token or model lies within their range and firing arc. Flak units fire regardless of whether they have already taken an action or not that turn. Flak fire does not require an action and takes place outside of the normal turn sequence. As explained, pintle-mounted machine guns have the flak special rule, and note that firing a flak weapon against an attacking aircraft does not make the vehicle count as open-topped for the turn – it is assumed the crew buttons up again after the air strike is concluded. Similarly, any flak units that are in Ambush retain their ambush status if they shoot at aircraft. However, any units that are hidden as described in the scenario section lose their hidden status if they shoot at aircraft. Friendly flak units must test to hold their fire against attacking aircraft if they are in arc and range of the marked position. Roll a D6 for each flak unit. To successfully hold their fire inexperienced units must roll a 4+, regular units a 3+, and veteran units a 2+. Units that do not manage to hold their fire will shoot at the incoming aircraft as if it were an enemy.', 'Core Rulebook', 116),
+            (18, 'Sherman HE', 'instead of using the 1" template, a Sherman's HE rounds use the 2" template (75mm gun tanks)', 'Core Rulebook', 234),
+            (19, 'Easily catches fire', 'If a roll on the vehicle damage table results in the vehicle catching fire add D3 pin markers rather than just 1 before taking a morale test ', 'Core Rulebook', 235),
+            (20, 'Open-topped', 'Some armoured vehicles are open-topped – meaning they have open turrets or open fighting compartments as opposed to fully enclosed vehicles such as tanks. Typical open-topped armoured vehicles include half-tracks, most self-propelled artillery pieces, many tank destroyers and some armoured cars. Open-topped armoured vehicles are more vulnerable to HE fire than equivalent fully enclosed vehicles, and are susceptible to close quarter attack by enemy infantry tossing grenades inside an exposed cab. Open-topped armoured vehicles are pinned by hits from small-arms in the same way as soft-skins and infantry. If assaulted by infantry open-topped armoured vehicles are destroyed automatically if the vehicle is damaged, in the same was as for soft-skins. If hit by indirect fire then add +1 to the damage result roll to represent the effect of a shot falling into an open-topped vehicle. Note that all hits upon the upper surface of armoured vehicles count +1 penetration regardless of whether the target is open or not – so open-topped armoured vehicles suffer a double penalty: +1 penetration and +1 damage result. ', 'Core Rulebook', 156),
+            (21, 'Recce', 'Some scout cars and light armoured vehicles operated in a scouting, recon or recce role (short for reconnaissance). Recce vehicles would advance ahead of a formation to probe out the enemy’s defences – as such they are super-alert to the enemy presence and prepared to avoid trouble. When reversing, either voluntarily or because of a failed order test (with enemy in its front arc), a recce vehicle can reverse at its full Advance rate (i.e. 12” or 9”) rather than at half rate, and can manoeuvre as if driving forward, i.e. a wheeled vehicle or half-track can make two 90° pivots or and a tracked vehicle can make a single 90° pivot. Some recce vehicles can even reverse at their Run rate if they are especially small and manoeuvrable or if they have dual direction steering – as did some German armoured cars. These exceptions are indicated in the Army Lists. If they fail an order test, these vehicles will always reverse at a Run rate. Recce vehicles will also spot hidden enemy at longer ranges than other vehicles – as noted in the rules for hidden units', 'Core Rulebook', 96),
+            (22, 'Amphibious', 'Amphibious vehicles are either designed to float or fitted with floatation devices that enable them to do so. An amphibious vehicle can move directly forward only over otherwise impassable deep water at half speed by means of an Advance action, i.e. a vehicle that would normally advance at 12” can move over water at 6”. A vehicle cannot make any other action whilst moving over water, cannot reverse, cannot turn, and will ignore all rules that otherwise oblige it to reverse or go Down. A vehicle that is immobilised whilst in the water is sunk or abandoned and is therefore destroyed together with any occupants. Note that vehicles can shoot whilst afloat, but if equipped with floatation screens will not be able to do so with any hull-mounted weapons (as specified in the relevant Bolt Action supplements).', 'Core Rulebook', 96);
+
+
+            INSERT INTO RuleUnit
+            VALUES
+            (13, 7),
+            (13, 8),
+            (13, 9),
+            (14, 10),
+            (15, 12),
+            (16, 14),
+            (16, 15),
+            (17, 16),
+            (18, 18),
+            (19, 18),
+            (19, 19),
+            (20, 20),
+            (20, 21),
+            (20, 22),
+            (17, 22),
+            (20, 23),
+            (21, 23),
+            (20, 26),
+            (22, 27);
+
+
+        </sql>
+    </changeSet>
+</databaseChangeLog>
