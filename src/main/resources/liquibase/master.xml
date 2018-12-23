@@ -7,4 +7,6 @@
     <include file="src/main/resources/liquibase/0.1/0.1.0010.xml"/>
     <include file="src/main/resources/liquibase/0.2/0.2.0010.xml"/>
     <include file="src/main/resources/liquibase/0.2/0.2.0020.xml"/>
+    <include file="src/main/resources/liquibase/0.2/0.2.0030.xml"/>
+    <include file="src/main/resources/liquibase/0.2/0.2.0040.xml"/>
 </databaseChangeLog>

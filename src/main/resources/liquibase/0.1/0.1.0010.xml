@@ -65,9 +65,9 @@
             `rule_id` bigint(20) NOT NULL,
             `unit_id` bigint(20) NOT NULL,
             KEY `FK__rule_u` (`rule_id`),
-            KEY `FK__unit` (`unit_id`),
+            KEY `FK__unit_u` (`unit_id`),
             CONSTRAINT `FK__rule_u` FOREIGN KEY (`rule_id`) REFERENCES `rule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-            CONSTRAINT `FK__unit` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+            CONSTRAINT `FK__unit_u` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
             -- Dumping data for table armycreator.ruleunit: ~0 rows (approximately)
@@ -105,7 +105,8 @@
             `selector_id` bigint(20) NOT NULL,
             `unit_id` bigint(20) NOT NULL,
             PRIMARY KEY (`selector_id`,`unit_id`),
-            KEY `FK__unit_selector` (`unit_id`),
+            KEY `FK__unit_s` (`unit_id`),
+            KEY `FK__selector_s` (`selector_id`),
             CONSTRAINT `FK__selector` FOREIGN KEY (`selector_id`) REFERENCES `selector` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
             CONSTRAINT `FK__unit_selector` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -132,19 +133,20 @@
             /*!40000 ALTER TABLE `unit` DISABLE KEYS */;
             /*!40000 ALTER TABLE `unit` ENABLE KEYS */;
 
-            -- Dumping structure for table armycreator.unit_option
-            CREATE TABLE IF NOT EXISTS `unit_option` (
+            -- Dumping structure for table armycreator.unitoption
+            CREATE TABLE IF NOT EXISTS `unitoption` (
             `unit_id` bigint(20) NOT NULL,
             `option_id` bigint(20) NOT NULL,
             PRIMARY KEY (`unit_id`,`option_id`),
             KEY `FK__option` (`option_id`),
+            KEY `FK__unit` (`unit_id`),
             CONSTRAINT `FK__option` FOREIGN KEY (`option_id`) REFERENCES `option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-            CONSTRAINT `FK__unit_option` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+            CONSTRAINT `FK__unitoption` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-            -- Dumping data for table armycreator.unit_option: ~0 rows (approximately)
-            /*!40000 ALTER TABLE `unit_option` DISABLE KEYS */;
-            /*!40000 ALTER TABLE `unit_option` ENABLE KEYS */;
+            -- Dumping data for table armycreator.unitoption: ~0 rows (approximately)
+            /*!40000 ALTER TABLE `unitoption` DISABLE KEYS */;
+            /*!40000 ALTER TABLE `unitoption` ENABLE KEYS */;
 
             -- Dumping structure for table armycreator.weapon
             CREATE TABLE IF NOT EXISTS `weapon` (
@@ -158,8 +160,6 @@
 
             -- Dumping data for table armycreator.weapon: ~0 rows (approximately)
             /*!40000 ALTER TABLE `weapon` DISABLE KEYS */;
-            INSERT INTO `weapon` (`id`, `name`, `range`, `shots`, `penetration`) VALUES
-            (1, 'Pistol', 6, 1, 0);
             /*!40000 ALTER TABLE `weapon` ENABLE KEYS */;
 
             /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
