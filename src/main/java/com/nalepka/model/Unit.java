@@ -16,13 +16,17 @@ public class Unit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String description;
     @ManyToOne
     @JoinColumn(name="nation_id")
     private Nation nation;
     private UnitType type;
     private String composition;
-    private Integer cost;
-    private Integer base_number;
-    private Integer max_number;
+    private Integer baseNumber;
+    private Integer maxNumber;
+    private Integer iCost;
+    private Integer rCost;
+    private Integer vCost;
+    private Integer IAditionalCost;
+    private Integer RAdditionalCost;
+    private Integer VAdditionalCost;
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,4 +19,7 @@ public class Selector {
     @ManyToOne
     @JoinColumn(name="nation_id")
     private Nation nation;
+    @ManyToMany
+    @JoinColumn(name="entry_id")
+    private List<Entry> entries;
 }
