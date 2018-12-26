@@ -21,18 +21,8 @@ public class UnitController {
         return unitService.getAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Unit getById(@PathVariable("id") Long id){
-        return unitService.getById(id);
-    }
-
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<Unit> add(Unit unit){
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public ResponseEntity<Unit> modify(@RequestBody Unit unit){
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    @RequestMapping(value = "/{entry}", method = RequestMethod.GET)
+    public Collection<Unit> getAllForEntry(@PathVariable("entry") Long entry){
+        return unitService.getAll();
     }
 }

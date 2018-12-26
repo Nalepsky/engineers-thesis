@@ -1,5 +1,6 @@
 package com.nalepka.controller;
 
+import com.nalepka.model.Unit;
 import com.nalepka.model.Weapon;
 import com.nalepka.service.impl.WeaponServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +25,9 @@ public class WeaponController {
         return new ResponseEntity<>(weaponService.getAll(), headers, HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Weapon> getById(@PathVariable("id") Long id){
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json; charset=utf-8");
-        return new ResponseEntity<>( weaponService.getById(id), headers, HttpStatus.ACCEPTED);
+    @RequestMapping(value = "/{unit}", method = RequestMethod.GET)
+    public Collection<Weapon> getAllForUnit(@PathVariable("unit") Long unit){
+        return weaponService.getAll();
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<Weapon> add(Weapon weapon){
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public ResponseEntity<Weapon> modify(@RequestBody Weapon weapon){
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 }
