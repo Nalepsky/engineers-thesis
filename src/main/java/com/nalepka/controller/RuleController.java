@@ -23,13 +23,13 @@ public class RuleController {
         return ruleService.getAll();
     }
 
-    @RequestMapping(value = "/{weapon}", method = RequestMethod.GET)
+    @RequestMapping(value = "weapon/{weapon}", method = RequestMethod.GET)
     public Collection<Rule> getAllForWeapon(@PathVariable("weapon") Long weapon){
         return ruleService.getAll();
     }
 
-    @RequestMapping(value = "/{unit}", method = RequestMethod.GET)
-    public Collection<Rule> getAllForUnit(@PathVariable("unit") Long unit){
-        return ruleService.getAll();
+    @RequestMapping(value = "unit/{unitId}", method = RequestMethod.GET)
+    public Collection<Rule> getAllForUnitId(@PathVariable("unitId") Long unitId){
+        return ruleService.getForUnitId(unitId);
     }
 }

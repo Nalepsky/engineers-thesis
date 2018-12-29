@@ -20,8 +20,8 @@ public class EntryController {
         return entryService.getAll();
     }
 
-    @RequestMapping(value = "/{selector}", method = RequestMethod.GET)
-    public Collection<Entry> getAllForSelector(@PathVariable("selector") Long selector){
-        return entryService.getAll();
+    @RequestMapping(value = "selector/{selectorId}", method = RequestMethod.GET)
+    public Collection<Entry> getAllForSelectorId(@PathVariable("selectorId") Long selectorId){
+        return entryService.getEntriesForSelectorId(selectorId);
     }
 }

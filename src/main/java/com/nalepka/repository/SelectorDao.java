@@ -1,9 +1,12 @@
 package com.nalepka.repository;
 
+import com.nalepka.model.Nation;
 import com.nalepka.model.Selector;
 import com.nalepka.model.Weapon;
 import org.springframework.data.repository.CrudRepository;
 
-public interface SelectorDao extends CrudRepository<Selector, Long> {
+import java.util.List;
 
+public interface SelectorDao extends CrudRepository<Selector, Long> {
+    public List<Selector> findForNationName(String nationName);
 }

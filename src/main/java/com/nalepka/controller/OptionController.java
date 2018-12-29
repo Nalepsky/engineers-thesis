@@ -21,8 +21,8 @@ public class OptionController {
         return optionService.getAll();
     }
 
-    @RequestMapping(value = "/{unit}", method = RequestMethod.GET)
-    public Collection<Option> getAllForUnit(@PathVariable("unit") Long unit){
-        return optionService.getAll();
+    @RequestMapping(value = "unit/{unitId}", method = RequestMethod.GET)
+    public Collection<Option> getAllForUnitId(@PathVariable("unitId") Long unitId){
+        return optionService.getForUnitId(unitId);
     }
 }

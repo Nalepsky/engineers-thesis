@@ -18,8 +18,12 @@ public class Entry {
     private Long id;
     private Long min;
     private Long max;
+    @Enumerated(EnumType.STRING)
     private UnitType type;
-    @ManyToMany
-    @JoinColumn(name="unit_id")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="entryunit",
+            joinColumns = @JoinColumn(name = "entry_id"),
+            inverseJoinColumns = @JoinColumn(name = "unit_id")
+    )
     private List<Unit> units;
 }

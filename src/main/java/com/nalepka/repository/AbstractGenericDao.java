@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractGenericDao<T> implements CrudRepository<T, Long> {
-    //@PersistenceContext(unitName = "weapon-unit", type = PersistenceContextType.EXTENDED)
     @PersistenceContext
     private EntityManager em;
     final private Class<T> entityClass;
@@ -130,7 +129,7 @@ public abstract class AbstractGenericDao<T> implements CrudRepository<T, Long> {
         }
     }
 
-    private EntityManager getEntityManager(){
+    protected EntityManager getEntityManager(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("armycreator");
         return emf.createEntityManager();
     }

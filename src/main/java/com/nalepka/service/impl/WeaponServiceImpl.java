@@ -1,6 +1,8 @@
 package com.nalepka.service.impl;
 
+import com.nalepka.model.Unit;
 import com.nalepka.model.Weapon;
+import com.nalepka.repository.UnitDao;
 import com.nalepka.repository.WeaponDao;
 import com.nalepka.service.WeaponService;
 import lombok.AllArgsConstructor;
@@ -13,10 +15,11 @@ import java.util.List;
 @Service
 public class WeaponServiceImpl implements WeaponService {
     private WeaponDao weaponDao;
+    private UnitDao unitDao;
 
-    @Autowired
-    public WeaponServiceImpl(WeaponDao weaponDao) {
+    public WeaponServiceImpl(WeaponDao weaponDao, UnitDao unitDao) {
         this.weaponDao = weaponDao;
+        this.unitDao = unitDao;
     }
 
     @Override
@@ -41,5 +44,12 @@ public class WeaponServiceImpl implements WeaponService {
     @Override
     public void delete(Long id) {
         weaponDao.deleteById(id);
+    }
+
+    @Override
+    public List<Weapon> getForUnitId(Long unitId) {
+        Unit unit = unitDao.findById(unitId).get();
+        //TODO add unitweapon table...
+        return null;
     }
 }

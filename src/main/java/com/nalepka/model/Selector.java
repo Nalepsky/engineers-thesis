@@ -19,7 +19,18 @@ public class Selector {
     @ManyToOne
     @JoinColumn(name="nation_id")
     private Nation nation;
-    @ManyToMany
-    @JoinColumn(name="entry_id")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="entryselector",
+        joinColumns = @JoinColumn(name = "selector_id"),
+        inverseJoinColumns = @JoinColumn(name = "entry_id")
+    )
     private List<Entry> entries;
+
+    @Override
+    public String toString() {
+        return "Selector{" +
+                "name='" + name + '\'' +
+                ", nation=" + nation +
+                '}';
+    }
 }

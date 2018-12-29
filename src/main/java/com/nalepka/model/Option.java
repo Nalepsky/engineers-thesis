@@ -22,5 +22,6 @@ public class Option {
     private Rule rule;
     private String description;
     private Integer cost;
+    @Column(name="max_number")
     private Integer maxNumber;
 }
