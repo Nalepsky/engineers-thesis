@@ -25,9 +25,11 @@ public class WeaponController {
         return new ResponseEntity<>(weaponService.getAll(), headers, HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/{unit}", method = RequestMethod.GET)
-    public Collection<Weapon> getAllForUnit(@PathVariable("unit") Long unit){
-        return weaponService.getAll();
+    @RequestMapping(value = "unit/{unitId}", method = RequestMethod.GET)
+    public  ResponseEntity<Collection<Weapon>> getAllForUnitId(@PathVariable("unitId") Long unitId){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
+        return new ResponseEntity<>(weaponService.getForUnitId(unitId), headers, HttpStatus.ACCEPTED);
     }
 
 }

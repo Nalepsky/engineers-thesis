@@ -1,0 +1,66 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+                   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+                   xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd'>
+
+
+    <changeSet author="marek.nalepka" id="0.2.0050.0010">
+        <sql>
+            -- Dumping structure for table armycreator.unitweapon
+            CREATE TABLE IF NOT EXISTS `unitweapon` (
+            `unit_id` bigint(20) NOT NULL,
+            `weapon_id` bigint(20) NOT NULL,
+            PRIMARY KEY (`unit_id`,`weapon_id`),
+            KEY `FK__weapon` (`weapon_id`),
+            KEY `FK__unit` (`unit_id`),
+            CONSTRAINT `FK__weapon_u` FOREIGN KEY (`weapon_id`) REFERENCES `weapon` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+            CONSTRAINT `FK__unit_w` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+            INSERT INTO unitweapon
+            VALUES
+            (1, 2),
+            (1, 3),
+            (1, 1),
+            (2, 2),
+            (2, 3),
+            (2, 1),
+            (3, 2),
+            (3, 3),
+            (3, 1),
+            (4, 2),
+            (4, 3),
+            (4, 1),
+            (5, 2),
+            (5, 3),
+            (5, 1),
+            (6, 2),
+            (6, 3),
+            (6, 1),
+            (7, 1),
+            (8, 1),
+            (9, 1),
+            (10, 7),
+            (11, 12),
+            (13, 22),
+            (14, 24),
+            (15, 16),
+            (16, 10),
+            (17, 15),
+            (17, 7),
+            (18, 16),
+            (18, 7),
+            (19, 17),
+            (19, 7),
+            (20, 17),
+            (21, 25),
+            (21, 7),
+            (22, 8),
+            (23, 15),
+            (23, 7),
+            (26, 8),
+            (27, 7);
+
+        </sql>
+    </changeSet>
+</databaseChangeLog>
