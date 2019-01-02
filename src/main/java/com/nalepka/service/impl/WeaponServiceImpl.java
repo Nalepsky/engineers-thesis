@@ -25,7 +25,6 @@ public class WeaponServiceImpl implements WeaponService {
     @Override
     public List<Weapon> getAll() {
         List<Weapon> weapons = new ArrayList<>();
-        System.out.println(weaponDao.findAll().toString());
         weaponDao.findAll()
                 .forEach(weapons::add);
         return weapons;
@@ -49,7 +48,6 @@ public class WeaponServiceImpl implements WeaponService {
     @Override
     public List<Weapon> getForUnitId(Long unitId) {
         Unit unit = unitDao.findById(unitId).get();
-        //TODO add unitweapon table...
-        return null;
+        return unit.getWeapons();
     }
 }

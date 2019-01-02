@@ -51,4 +51,10 @@ public class Unit {
             inverseJoinColumns = @JoinColumn(name = "option_id")
     )
     private List<Option> options;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="unitweapon",
+            joinColumns = @JoinColumn(name = "unit_id"),
+            inverseJoinColumns = @JoinColumn(name = "weapon_id")
+    )
+    private List<Weapon> weapons;
 }
