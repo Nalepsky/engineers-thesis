@@ -6,6 +6,7 @@ import com.nalepka.repository.NationDao;
 import com.nalepka.repository.impl.NationDaoImpl;
 import com.nalepka.service.impl.NationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,11 @@ public class NationController {
     NationServiceImpl nationService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Collection<Nation> getAll(){
-        return nationService.getAll();
+    public ResponseEntity<Collection<Nation>> getAll(){
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
+        return new ResponseEntity<>(nationService.getAll(), headers, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
