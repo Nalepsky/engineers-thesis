@@ -14,4 +14,8 @@ public class SelectorDataHolder {
     private Long id;
     private Integer points;
     private List<UnitDataHolder> units;
+
+    public Integer getUnitsSize(){
+        return units.size();
+    }
 }

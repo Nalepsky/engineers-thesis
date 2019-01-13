@@ -31,4 +31,8 @@ public class Option {
         }
         return rule.getName();
     }
+
+    public Object getOptionClass(){
+        return (weapon != null)? Rule.class: Weapon.class;
+    }
 }

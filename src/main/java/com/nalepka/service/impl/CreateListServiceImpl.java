@@ -5,9 +5,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.nalepka.model.Option;
-import com.nalepka.model.Unit;
-import com.nalepka.model.Weapon;
+import com.nalepka.model.*;
 import com.nalepka.model.dataHolder.OptionsDataHolder;
 import com.nalepka.model.dataHolder.SelectorDataHolder;
 import com.nalepka.model.dataHolder.UnitDataHolder;
@@ -19,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -42,17 +41,46 @@ public class CreateListServiceImpl implements CreateListService {
 
         final SelectorDataHolder selector = mapper.readValue(json, mapper.getTypeFactory().constructType(SelectorDataHolder.class));
 
+        final Font titleFont = new Font(Font.FontFamily.HELVETICA  , 20, Font.BOLD);
+        final Font rulesFont = new Font(Font.FontFamily.HELVETICA  , 16, Font.BOLD);
+
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("armyLists/ArmyList.pdf"));
         document.open();
 
-        Paragraph title = new Paragraph();
-        title.add(selectorDao.findById(selector.getId()).get().getName() + " - " + selector.getPoints());
+        Paragraph title = new Paragraph(selectorDao.
+                findById(selector.getId()).get().getName()
+                + " - " + selector.getPoints()
+                , titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
         document.add(title);
+
+        Paragraph numberOfUnits = new Paragraph(selector.getUnitsSize() + " units");
+
+        PdfPTable numberOfUnitsTable = new PdfPTable(1);
+        PdfPCell numberOfUnitsCell = new PdfPCell(numberOfUnits);
+        numberOfUnitsCell.setPaddingTop(20);
+        numberOfUnitsCell.setBorder(Rectangle.NO_BORDER);
+        numberOfUnitsTable.addCell(numberOfUnitsCell);
+        document.add(numberOfUnitsTable);
 
         selector.getUnits().forEach(u -> {
             try {
                 document.add(createUnitTable(u));
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Paragraph rulesHeader = new Paragraph("Rules", rulesFont);
+        rulesHeader.setAlignment(Element.ALIGN_CENTER);
+        rulesHeader.setSpacingBefore(15);
+        rulesHeader.setSpacingAfter(15);
+        document.add(rulesHeader);
+
+        createRulesSet(selector).forEach(r -> {
+            try {
+                document.add(r);
             } catch (DocumentException e) {
                 e.printStackTrace();
             }
@@ -78,20 +106,66 @@ public class CreateListServiceImpl implements CreateListService {
         PdfPCell unitName = new PdfPCell(new Paragraph(unit.getName()));
         PdfPCell experienceLevel = new PdfPCell(new Paragraph(unitDataHolder.getExperienceLevel().toString()));
         PdfPCell points = new PdfPCell(new Paragraph(calculatePoints(unitDataHolder)));
+        PdfPCell additionalModels = new PdfPCell(createNumberOfModelsTable(unitDataHolder));
         PdfPCell weaponsHeader = new PdfPCell(createWeaponTable((ArrayList<String>) weaponHeaderArguments,BaseColor.GRAY));
         java.util.List<PdfPCell> weapons = createWeaponsList(unitDataHolder);
 
         unitName.setColspan(2);
+        additionalModels.setColspan(4);
         weaponsHeader.setColspan(4);
         weapons.forEach(w -> w.setColspan(4));
 
         table.addCell(unitName);
         table.addCell(experienceLevel);
         table.addCell(points);
+        table.addCell(additionalModels);
         table.addCell(weaponsHeader);
         weapons.forEach(table::addCell);
 
+        table.setWidthPercentage(100);
+
         return table;
+    }
+
+    private Set<Paragraph> createRulesSet(SelectorDataHolder selectorDataHolder){
+        final java.util.List<Unit> units = new ArrayList<>();
+        final java.util.Set<Option> options = new HashSet<>();
+        final Set<Rule> rules = new HashSet<>();
+        final Set<Paragraph> result = new HashSet<>();
+        selectorDataHolder.getUnits().forEach(u -> units.add(unitDao.findById(u.getId()).get()));
+
+        units.forEach(u -> {
+            rules.addAll(u.getRules());
+
+            u.getWeapons().forEach(w -> rules.addAll(w.getRules()));
+        });
+
+        selectorDataHolder.getUnits().forEach(u -> u.getOptions()
+                        .forEach(o -> options.add(optionDao.findById(o.getId()).get())));
+
+        options.forEach(o -> {
+            if(o.getRule() != null){
+                rules.add(o.getRule());
+            }else{
+                rules.addAll(o.getWeapon().getRules());
+            }
+        });
+
+        rules.forEach(r -> result.add(createRuleParagraph(r)));
+
+        return result;
+    }
+
+    private Paragraph createRuleParagraph(Rule rule){
+        Paragraph ruleParagraph = new Paragraph();
+        Chunk ruleName = new Chunk(rule.getName() + " - ", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
+        Chunk ruleDescription = new Chunk(rule.getDescription());
+        ruleParagraph.add(ruleName);
+        ruleParagraph.add(ruleDescription);
+
+        ruleParagraph.setSpacingBefore(15);
+
+        return ruleParagraph;
     }
 
     private java.util.List<PdfPCell> createWeaponsList(UnitDataHolder unitDataHolder){
@@ -133,17 +207,6 @@ public class CreateListServiceImpl implements CreateListService {
         return result;
     }
 
-    private PdfPCell createOptionsList(Set<OptionsDataHolder> optionsDataHolder){
-        List optionsList = new List(List.UNORDERED);
-
-        optionsDataHolder.forEach(option -> optionsList.add(option.getCount() + "x "
-                + optionDao.findById(option.getId()).get().getWeaponOrRule()));
-
-        PdfPCell result = new PdfPCell();
-        result.addElement(optionsList);
-        return result;
-    }
-
     private String calculatePoints(UnitDataHolder unitDataHolder){
         final Unit unit = unitDao.findById(unitDataHolder.getId()).get();
         Integer points = unit.getCost(unitDataHolder.getExperienceLevel());
@@ -156,6 +219,24 @@ public class CreateListServiceImpl implements CreateListService {
         }
 
         return points.toString();
+    }
+
+    private PdfPTable createNumberOfModelsTable(UnitDataHolder unitDataHolder) {
+        PdfPTable additionalModelsTable = new PdfPTable(1);
+        Unit unit = unitDao.findById(unitDataHolder.getId()).get();
+
+        Integer totalNumberOfModels = unit.getBaseNumber() + unitDataHolder.getNumberOfAdditionalModels();
+        String message = (totalNumberOfModels == 1)?"men":"man";
+
+        PdfPCell additionalModels = new PdfPCell(
+                new Paragraph(totalNumberOfModels + " " + message + " armed with " + unit.getWeapons().get(0).getName())
+        );
+
+        additionalModels.setBorder(Rectangle.NO_BORDER);
+
+        additionalModelsTable.addCell(additionalModels);
+
+        return additionalModelsTable;
     }
 
     private PdfPTable createWeaponTable(ArrayList<String> values, BaseColor color){
