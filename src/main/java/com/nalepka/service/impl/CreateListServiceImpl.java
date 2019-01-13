@@ -102,7 +102,7 @@ public class CreateListServiceImpl implements CreateListService {
         unit.getWeapons().forEach(w -> {
             java.util.List <String> weaponHeaderArguments = new ArrayList<>();
 
-            weaponHeaderArguments.add("n/a");
+            weaponHeaderArguments.add(unitDataHolder.getNumberOfAdditionalModels() + unit.getBaseNumber() + "");
             weaponHeaderArguments.add(w.getName());
             weaponHeaderArguments.add(w.getRange());
             weaponHeaderArguments.add(w.getShots());
@@ -119,7 +119,7 @@ public class CreateListServiceImpl implements CreateListService {
 
                 java.util.List <String> weaponHeaderArguments = new ArrayList<>();
 
-                weaponHeaderArguments.add("n/a");
+                weaponHeaderArguments.add(option.getCount().toString());
                 weaponHeaderArguments.add(weapon.getName());
                 weaponHeaderArguments.add(weapon.getRange());
                 weaponHeaderArguments.add(weapon.getShots());
