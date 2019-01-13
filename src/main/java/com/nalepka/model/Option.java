@@ -24,4 +24,11 @@ public class Option {
     private Integer cost;
     @Column(name="max_number")
     private Integer maxNumber;
+
+    public String getWeaponOrRule(){
+        if(weapon != null){
+            return weapon.getName();
+        }
+        return rule.getName();
+    }
 }

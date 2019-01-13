@@ -27,4 +27,17 @@ public class Weapon {
             joinColumns = { @JoinColumn(name = "weapon_id") },
             inverseJoinColumns = { @JoinColumn(name = "rule_id") })
     private List<Rule> rules;
+
+    public String getRulesNames(){
+        StringBuilder rulesNames = new StringBuilder();
+        getRules().forEach(r -> rulesNames.append(r.getName()).append(", "));
+
+        String result = rulesNames.toString();
+
+        if(result.isEmpty()){
+            return "-";
+        }
+
+        return  result.substring(0, result.length() - 2);
+    }
 }
