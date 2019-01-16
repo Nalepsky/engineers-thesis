@@ -19,19 +19,15 @@ public class CreateListController {
 
     @RequestMapping(value = "/getpdf", method = RequestMethod.POST)
     public ResponseEntity<byte[]> getPDF(@RequestBody String json){
-        System.out.println(json);
+        byte[] content = new byte[0];
 
         try {
-            /*Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("testOutput.pdf"));
-            document.open();*/
-            createListService.createPdfFromJson(json);
-            //document.close();
-        } catch (IOException | DocumentException e) {
+            content = createListService.createPdfFromJson(json).toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
             e.printStackTrace();
         }
-
-        byte[] content = {'s', 'a'};
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");

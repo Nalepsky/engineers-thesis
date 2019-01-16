@@ -14,7 +14,7 @@ import com.nalepka.service.CreateListService;
 import com.nalepka.utils.PaintTableColorPicker;
 import org.springframework.stereotype.Service;
 
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,7 +36,7 @@ public class CreateListServiceImpl implements CreateListService {
         this.ruleDao = ruleDao;
     }
 
-    public Document createPdfFromJson(String json) throws IOException, DocumentException {
+    public ByteArrayOutputStream createPdfFromJson(String json) throws IOException, DocumentException {
         final ObjectMapper mapper = new ObjectMapper();
 
         final SelectorDataHolder selector = mapper.readValue(json, mapper.getTypeFactory().constructType(SelectorDataHolder.class));
@@ -45,7 +45,8 @@ public class CreateListServiceImpl implements CreateListService {
         final Font rulesFont = new Font(Font.FontFamily.HELVETICA  , 16, Font.BOLD);
 
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("armyLists/ArmyList.pdf"));
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PdfWriter.getInstance(document, out);
         document.open();
 
         Paragraph title = new Paragraph(selectorDao.
@@ -62,6 +63,7 @@ public class CreateListServiceImpl implements CreateListService {
         numberOfUnitsCell.setPaddingTop(20);
         numberOfUnitsCell.setBorder(Rectangle.NO_BORDER);
         numberOfUnitsTable.addCell(numberOfUnitsCell);
+        numberOfUnitsTable.setWidthPercentage(100);
         document.add(numberOfUnitsTable);
 
         selector.getUnits().forEach(u -> {
@@ -88,7 +90,7 @@ public class CreateListServiceImpl implements CreateListService {
 
         document.close();
 
-        return null;
+        return out;
     }
 
     private PdfPTable createUnitTable(UnitDataHolder unitDataHolder){
@@ -158,9 +160,11 @@ public class CreateListServiceImpl implements CreateListService {
 
     private Paragraph createRuleParagraph(Rule rule){
         Paragraph ruleParagraph = new Paragraph();
-        Chunk ruleName = new Chunk(rule.getName() + " - ", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
-        Chunk ruleDescription = new Chunk(rule.getDescription());
+        Chunk ruleName = new Chunk(rule.getName(), new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
+        Chunk ruleDetails = new Chunk(" (" + rule.getSource() + " p: " + rule.getPage() + ") ",  new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.GRAY));
+        Chunk ruleDescription = new Chunk("- " + rule.getDescription());
         ruleParagraph.add(ruleName);
+        ruleParagraph.add(ruleDetails);
         ruleParagraph.add(ruleDescription);
 
         ruleParagraph.setSpacingBefore(15);
