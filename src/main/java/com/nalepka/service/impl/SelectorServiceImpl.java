@@ -24,7 +24,7 @@ public class SelectorServiceImpl implements SelectorService {
 
     @Override
     public List<Selector> getAll() {
-        return null;
+        return (List<Selector>) selectorDao.findAll();
     }
 
     @Override
