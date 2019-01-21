@@ -1,11 +1,13 @@
 package com.nalepka.model;
 
+import com.nalepka.model.dataHolder.UnitNameAndId;
 import com.nalepka.utils.UnitType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -26,4 +28,20 @@ public class Entry {
             inverseJoinColumns = @JoinColumn(name = "unit_id")
     )
     private List<Unit> units;
+
+    public List<String> getUnitsAsString(){
+        List<String> result = new ArrayList<>();
+
+        units.forEach(u -> result.add(u.getName()));
+
+        return result;
+    }
+
+    public List<UnitNameAndId> getUnitsAsUnitNameAndId(){
+        List<UnitNameAndId> result = new ArrayList<>();
+
+        units.forEach(u -> result.add(new UnitNameAndId(u.getId(), u.getName())));
+
+        return result;
+    }
 }

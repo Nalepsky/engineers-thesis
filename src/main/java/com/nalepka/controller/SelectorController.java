@@ -2,6 +2,7 @@ package com.nalepka.controller;
 
 import com.nalepka.model.Rule;
 import com.nalepka.model.Selector;
+import com.nalepka.model.dataHolder.SelectorWithoutEntries;
 import com.nalepka.service.impl.SelectorServiceImpl;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,16 @@ public class SelectorController {
     @RequestMapping(method = RequestMethod.GET)
     public Collection<Selector> getAll(){
         return selectorService.getAll();
+    }
+
+    @RequestMapping(value = "withoutEntries", method = RequestMethod.GET)
+    public Collection<SelectorWithoutEntries> getAllWithoutEntries(){
+        List <Selector> selectors = selectorService.getAll();
+        List <SelectorWithoutEntries> selectorWithoutEntries = new ArrayList<>();
+
+        selectors.forEach(s -> selectorWithoutEntries.add(new SelectorWithoutEntries(s.getId(), s.getName(), s.getNation())));
+
+        return selectorWithoutEntries;
     }
 
     @RequestMapping(value = "nation/{nation}", method = RequestMethod.GET)
