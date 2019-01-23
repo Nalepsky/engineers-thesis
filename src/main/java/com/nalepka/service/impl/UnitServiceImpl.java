@@ -3,6 +3,7 @@ package com.nalepka.service.impl;
 import com.nalepka.model.Unit;
 import com.nalepka.repository.UnitDao;
 import com.nalepka.service.UnitService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,11 @@ import java.util.List;
 @Service
 public class UnitServiceImpl implements UnitService {
     private UnitDao unitDao;
+
+    @Autowired
+    public UnitServiceImpl(UnitDao unitDao) {
+        this.unitDao = unitDao;
+    }
 
     @Override
     public List<Unit> getAll() {

@@ -27,6 +27,11 @@ public class UnitController {
         return unitService.getAll();
     }
 
+    @RequestMapping(value = "/{unitId}", method = RequestMethod.GET)
+    public Unit getById(@PathVariable("unitId") Long unitId){
+        return unitService.getById(unitId);
+    }
+
     @RequestMapping(value = "entry/{entryId}", method = RequestMethod.GET)
     public ResponseEntity<Collection<Unit>> getAllForEntry(@PathVariable("entryId") Long entryId){
         Entry entry = entryService.getById(entryId);
