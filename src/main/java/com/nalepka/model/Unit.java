@@ -31,17 +31,17 @@ public class Unit {
     @Column(name = "max_number")
     private Integer maxNumber;
     @Column(name = "i_cost")
-    private Integer iCost;
+    private Integer inexpCost;
     @Column(name = "r_cost")
-    private Integer rCost;
+    private Integer regCost;
     @Column(name = "v_cost")
-    private Integer vCost;
+    private Integer vetCost;
     @Column(name = "additional_i_cost")
-    private Integer IAdditionalCost;
+    private Integer inexpAdditionalCost;
     @Column(name = "additional_r_cost")
-    private Integer RAdditionalCost;
+    private Integer regAdditionalCost;
     @Column(name = "additional_v_cost")
-    private Integer VAdditionalCost;
+    private Integer vetAdditionalCost;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="ruleunit",
             joinColumns = @JoinColumn(name = "unit_id"),
@@ -63,18 +63,18 @@ public class Unit {
 
     public Integer getAdditionalCost(ExperienceLevel level){
         Map<ExperienceLevel, Integer> cost = new HashMap<>();
-        cost.put(ExperienceLevel.INEXPERIENCED, getIAdditionalCost());
-        cost.put(ExperienceLevel.REGULAR, getRAdditionalCost());
-        cost.put(ExperienceLevel.VETERAN, getVAdditionalCost());
+        cost.put(ExperienceLevel.INEXPERIENCED, getInexpAdditionalCost());
+        cost.put(ExperienceLevel.REGULAR, getRegAdditionalCost());
+        cost.put(ExperienceLevel.VETERAN, getVetAdditionalCost());
 
         return cost.get(level);
     }
 
     public Integer getCost(ExperienceLevel level){
         Map<ExperienceLevel, Integer> cost = new HashMap<>();
-        cost.put(ExperienceLevel.INEXPERIENCED, getICost());
-        cost.put(ExperienceLevel.REGULAR, getRCost());
-        cost.put(ExperienceLevel.VETERAN, getVCost());
+        cost.put(ExperienceLevel.INEXPERIENCED, getInexpCost());
+        cost.put(ExperienceLevel.REGULAR, getRegCost());
+        cost.put(ExperienceLevel.VETERAN, getVetCost());
 
         return cost.get(level);
     }
