@@ -5,6 +5,6 @@ import com.itextpdf.text.DocumentException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public interface CreateListService {
+public interface GeneratePdfService {
     ByteArrayOutputStream createPdfFromJson(String json) throws IOException, DocumentException;
 }

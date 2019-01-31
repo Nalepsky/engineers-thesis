@@ -1,8 +1,10 @@
 package com.nalepka.controller;
 
 import com.itextpdf.text.*;
-import com.nalepka.service.CreateListService;
-import com.nalepka.service.impl.CreateListServiceImpl;
+import com.nalepka.service.ArmyListService;
+import com.nalepka.service.GeneratePdfService;
+import com.nalepka.service.impl.ArmyListServiceImpl;
+import com.nalepka.service.impl.GeneratePdfServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,10 +17,13 @@ import java.io.IOException;
 @RequestMapping("/create")
 public class CreateListController {
     @Autowired
-    CreateListService createListService;
+    GeneratePdfServiceImpl createListService;
 
-    @RequestMapping(value = "/getpdf", method = RequestMethod.POST)
-    public ResponseEntity<byte[]> getPDF(@RequestBody String json){
+    @Autowired
+    ArmyListServiceImpl armyListService;
+
+    @RequestMapping(value = "/getpdf/{userId}", method = RequestMethod.POST)
+    public ResponseEntity<byte[]> getPDF(@PathVariable("userId") Long userId, @RequestBody String json){
         byte[] content = new byte[0];
 
         try {
@@ -28,6 +33,8 @@ public class CreateListController {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
+
+        armyListService.update(userId, json);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");

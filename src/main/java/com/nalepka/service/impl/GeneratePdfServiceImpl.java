@@ -10,7 +10,7 @@ import com.nalepka.model.dataHolder.OptionsDataHolder;
 import com.nalepka.model.dataHolder.SelectorDataHolder;
 import com.nalepka.model.dataHolder.UnitDataHolder;
 import com.nalepka.repository.*;
-import com.nalepka.service.CreateListService;
+import com.nalepka.service.GeneratePdfService;
 import com.nalepka.utils.PaintTableColorPicker;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +21,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class CreateListServiceImpl implements CreateListService {
+public class GeneratePdfServiceImpl implements GeneratePdfService {
     private SelectorDao selectorDao;
     private UnitDao unitDao;
     private OptionDao optionDao;
     private WeaponDao weaponDao;
     private RuleDao ruleDao;
 
-    public CreateListServiceImpl(SelectorDao selectorDao, UnitDao unitDao, OptionDao optionDao, WeaponDao weaponDao, RuleDao ruleDao) {
+    public GeneratePdfServiceImpl(SelectorDao selectorDao, UnitDao unitDao, OptionDao optionDao, WeaponDao weaponDao, RuleDao ruleDao) {
         this.selectorDao = selectorDao;
         this.unitDao = unitDao;
         this.optionDao = optionDao;
