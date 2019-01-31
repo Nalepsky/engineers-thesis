@@ -1,8 +1,6 @@
 package com.nalepka.controller;
 
-import com.itextpdf.text.*;
-import com.nalepka.service.ArmyListService;
-import com.nalepka.service.GeneratePdfService;
+import com.itextpdf.text.DocumentException;
 import com.nalepka.service.impl.ArmyListServiceImpl;
 import com.nalepka.service.impl.GeneratePdfServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/create")
@@ -39,5 +38,12 @@ public class CreateListController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
         return new ResponseEntity<>(content, headers, HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/getarmylists/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<List<String>> getArmyLists(@PathVariable("userId") Long userId){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
+        return new ResponseEntity<>(armyListService.getAllById(userId), headers, HttpStatus.ACCEPTED);
     }
 }

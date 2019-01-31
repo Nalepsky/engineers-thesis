@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/selector")
@@ -34,6 +35,22 @@ public class SelectorController {
         selectors.forEach(s -> selectorWithoutEntries.add(new SelectorWithoutEntries(s.getId(), s.getName(), s.getNation())));
 
         return selectorWithoutEntries;
+    }
+
+    @RequestMapping(value = "withoutEntriesForIds", method = RequestMethod.GET)
+    public Collection<SelectorWithoutEntries> getAllWithoutEntriesForIds(@RequestBody List<Long> ids){
+        //TODO move buisness logic to services...
+        List <Selector> selectors = selectorService.getAll();
+        List <SelectorWithoutEntries> selectorWithoutEntries = new ArrayList<>();
+        List <SelectorWithoutEntries> selectorWithoutEntriesForIds = new ArrayList<>();
+
+        selectors.forEach(s -> selectorWithoutEntries.add(new SelectorWithoutEntries(s.getId(), s.getName(), s.getNation())));
+        selectorWithoutEntriesForIds = selectorWithoutEntries.stream()
+                .filter(s -> ids.contains(s.getId()))
+                .collect(Collectors.toList());
+
+
+        return selectorWithoutEntriesForIds;
     }
 
     @RequestMapping(value = "nation/{nation}", method = RequestMethod.GET)
